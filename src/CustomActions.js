@@ -27,7 +27,7 @@ export default function (runtimeDomain, jweToken) {
       }
       resolve();
     })
-  })
+  });
 
   Actions.replaceAction('RejectTask', (payload, original) => {
     return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ export default function (runtimeDomain, jweToken) {
       }
       resolve();
     })
-  })
+  });
 
   Actions.replaceAction('HoldCall', (payload, original) => {
     return new Promise((resolve, reject) => {
@@ -74,8 +74,8 @@ export default function (runtimeDomain, jweToken) {
         original(payload);
       }
       resolve();
-    })
-  })
+    });
+  });
 
   Actions.replaceAction('UnholdCall', (payload, original) => {
     return new Promise((resolve, reject) => {
@@ -98,7 +98,7 @@ export default function (runtimeDomain, jweToken) {
       }
       resolve();
     })
-  })
+  });
 
   const toggleHold = function (conference, participant, hold, original, payload) {
 

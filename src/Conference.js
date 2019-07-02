@@ -255,9 +255,9 @@ export class ConferenceButton2 extends React.Component {
     //Populate a list of workers in TaskRouter to be used in the Search Box
     const query = '';
     this.props.insightsClient.instantQuery('tr-worker')
-      .then((q: InstantQuery) => {
+      .then((q) => {
         this.workersSearch = q;
-        q.on('searchResult', (items: any) => {
+        q.on('searchResult', (items) => {
           this.setState({ workerList: items });
         });
         q.search(query);
@@ -419,16 +419,19 @@ export class ConferenceButton2 extends React.Component {
   }
 
   addConferenceParticipant() {
+    console.log('Adding Conference Participant');
     //If Worker is selected, add worker to conference, otherwise add number from screenMainLine
     const to = typeof(this.state.transferTo) === 'object' ? this.state.transferTo.value : this.state.screenMainLine;
     const from = typeof(this.state.transferTo) === 'object' ? this.props.workerName : this.props.from;
+
+    const body = `taskSid=${this.props.task.taskSid}&from=${from}&to=${to}&Token=${this.props.jweToken}`;
 
     fetch(`https://${this.props.runtimeDomain}/add-conference-participant`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',
-      body: `taskSid=${this.props.task.taskSid}&from=${from}&to=${to}&Token=${this.props.jweToken}`
+      body: body
     })
     .then(response => response.json())
     .then(json => {
@@ -471,6 +474,6 @@ const mapStateToProps = (state, ownProps) => {
     activeCall: state.flex.phone.connections,
     workerName: state.flex.worker.attributes.full_name,
   }
-}
+};
 
 export default connect(mapStateToProps)(withStyles(styles)(ConferenceButton));

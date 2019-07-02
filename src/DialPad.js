@@ -277,6 +277,7 @@ export class DialPad extends React.Component {
       const number = (typeof this.state.plus === 'undefined') ? this.state.screenMainLine : `+${this.state.screenMainLine}`;
       this.setState({screenMainLine: ''});
       if (number !== '') {
+        console.log('Dialing!!!', number, this.props.from, this.props.workerContactUri);
         this.dial(number, this.props.from, this.props.workerContactUri);
       };
     }
@@ -299,11 +300,12 @@ export class DialPad extends React.Component {
   }
 
   dial(number, from, workerContactUri) {
+    console.log('dial invoked', from, number, workerContactUri);
     //If Worker is selected, add worker to conference, otherwise add number from screenMainLine
     number = typeof(this.state.transferTo) === 'object' ? this.state.transferTo.value : number;
     from = typeof(this.state.transferTo) === 'object' ? this.props.workerName : from;
     const internal = typeof(this.state.transferTo) === 'object';
-
+    const body = `From=${from}&To=${number}&Worker=${workerContactUri}&Internal=${internal}&Token=${this.props.jweToken}`;
     if (number.length > 0) {
 
       fetch(`https://${this.props.runtimeDomain}/create-new-task`, {
@@ -311,7 +313,7 @@ export class DialPad extends React.Component {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         method: 'POST',
-        body: `From=${from}&To=${number}&Worker=${workerContactUri}&Internal=${internal}&Token=${this.props.jweToken}`
+        body: body
       })
       .then(response => response.json())
       .then(json => {
@@ -372,6 +374,7 @@ export class DialPad extends React.Component {
       return (<div>
         <Phone className={classes.button} onClick={e => {
           const number = (typeof this.state.plus === 'undefined') ? this.state.screenMainLine : `+${this.state.screenMainLine}`;
+          console.log('Phone', number);
           this.setState({screenMainLine: ''});
           this.dial(number, this.props.from, this.props.workerContactUri);
         }} />

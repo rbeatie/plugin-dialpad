@@ -1,4 +1,5 @@
 import { FlexPlugin } from 'flex-plugin';
+// import ChannelDefs from  './channelDefs';
 import React from 'react';
 import DialPad from './DialPad';
 import DialerButton from './DialerButton';
@@ -10,6 +11,11 @@ export default class DialpadPlugin extends FlexPlugin {
   name = 'DialpadPlugin';
 
   init(flex, manager) {
+    // ChannelDefs(flex);
+
+    flex.Actions.addListener('afterAcceptTask', (task) => {
+      console.log('afterAcceptTask!!!', task);
+    });
 
     // get the JWE for authenticating the worker in our Function
     const jweToken = manager.store.getState().flex.session.ssoTokenPayload.token
