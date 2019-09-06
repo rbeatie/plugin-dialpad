@@ -40,12 +40,31 @@ export default class DialpadPlugin extends FlexPlugin {
     flex.TaskCanvasHeader.Content.add(<CallButton key='callbutton' runtimeDomain={functionsUrl} jweToken={jweToken}/>);
 
     //create custom task TaskChannel
+    
     const outboundVoiceChannel = flex.DefaultTaskChannels.createCallTaskChannel('custom1',
       (task) => task.taskChannelUniqueName === 'custom1');
     flex.TaskChannels.register(outboundVoiceChannel);
 
+    const inboundVoiceChannel = flex.DefaultTaskChannels.createCallTaskChannel('voice',(
+      (task) => {
+        const store = manager.store.getState().flex;
+        const  tasks =  store.worker.tasks;
+        if (task.taskChannelUniqueName === 'voice') {
+          for (let i = 0; i <tasks.size; i++) {
+            if (tasks[i].task.channelUniqueName === 'custom1') {
+              return false;
+            }
+          }
+        } 
+        return true
+      };
+      flex.TaskChannels.register(inbound);
+
+
+
     registerCustomActions(functionsUrl, jweToken);
 
+    
     //Add custom redux store
     manager.store.addReducer('dialpad', dialpadReducer);
   }
