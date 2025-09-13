@@ -17,7 +17,7 @@
     "eject": "flex-plugin eject"
   },
   "devDependencies": {
-    "@twilio/flex-ui": "^1.12.1",
+    "@twilio/flex-ui": "^2.14.0",
     "react-app-rewire-flex-plugin": "^1.0.2",
     "react-app-rewired": "^1.6.2"
   },
@@ -30,7 +30,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "flex-plugin": "^3.5.0-beta.0",
-    "flex-plugin-scripts": "^3.5.0-beta.0",
+    "flex-plugin-scripts": "^3.14.6",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-scripts": "^3.0.0",
